@@ -5,15 +5,15 @@ import Vehicle from './Vehicle';
 const stateValueLimits = {
     engineForceMin: -cfg.vehicle.maxEngineForce,
     engineForceMax: cfg.vehicle.maxEngineForce,
-    brakeForceMin: 0,
-    brakeForceMax: cfg.vehicle.maxBrakeForce,
+    parkingBrakeForceMin: 0,
+    parkingBrakeForceMax: cfg.vehicle.maxParkingBrakeForce,
     steeringAngleMin: -cfg.vehicle.maxSteeringAngle,
     steeringAngleMax: cfg.vehicle.maxSteeringAngle,
 };
 
 const defaultState = {
     engineForce: 0,
-    brakeForce: 0,
+    parkingBrakeForce: 0,
     steeringAngle: 0,
 };
 

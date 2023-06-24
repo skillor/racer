@@ -13,6 +13,10 @@ body {
     -ms-user-select: none;
 }
 
+#stats {
+    top: 60px !important;
+}
+
 .hidden {
     display: none;
 }

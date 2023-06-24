@@ -13,6 +13,7 @@ export default function SettingsTabPanel({ tabLabel }: SettingsTabPanelProps) {
     const { renderer } = useContext(MenuContext);
     const [fullscreen, setFullscreen] = useState(Boolean(document.fullscreenElement));
     const [renderWireFrame, setRenderWireFrame] = useState(config.renderWireFrame);
+    const [showStats, setShowStats] = useState(config.showStats);
 
     useEffect(() => {
         if (document.fullscreenElement && !fullscreen) {
@@ -34,6 +35,14 @@ export default function SettingsTabPanel({ tabLabel }: SettingsTabPanelProps) {
         config.renderWireFrame = on;
     }
 
+    function toggleShowStats(on: boolean) {
+        setShowStats(on);
+
+        document.getElementById('stats').style.display = on ? 'block' : 'none';
+
+        config.showStats = on;
+    }
+
     function setResolutionScale(value: number) {
         renderer.setPixelRatio(value);
 
@@ -47,6 +56,12 @@ export default function SettingsTabPanel({ tabLabel }: SettingsTabPanelProps) {
                 label={uiTexts.fullscreenSwitchLabel}
                 on={fullscreen}
                 onChange={toggleFullscreen}
+            />
+            <Switch
+                id="showStats"
+                label={uiTexts.showStatsSwitchLabel}
+                on={showStats}
+                onChange={toggleShowStats}
             />
             <Switch
                 id="renderWireFrame"

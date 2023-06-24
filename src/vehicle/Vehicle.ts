@@ -14,7 +14,7 @@ const { renderWireFrame } = cfg;
 const {
     torqueSplitRatio,
     maxEngineForce,
-    maxBrakeForce,
+    maxParkingBrakeForce,
     maxSteeringAngle,
     steeringSpeed,
     wheelRadius,
@@ -195,10 +195,10 @@ export default class Vehicle {
         this.chassisMesh.translateOnAxis(translateAxis, 0.6);
     }
 
-    setEngineForceDirection(engineForceDirection: -1|0|1) {
-        this.state.engineForce = maxEngineForce * engineForceDirection;
+    setEngineForce(engineForce: number) {
+        this.state.engineForce = maxEngineForce * engineForce;
 
-        if (engineForceDirection === -1) {
+        if (engineForce < 0) {
             // reverse
             this.state.engineForce *= 0.9;
             this.materials.tailLightMaterial.emissive.setHSL(0, 0, brakeLightBrightness);
@@ -246,17 +246,17 @@ export default class Vehicle {
         }
     }
 
-    setBrakeForce(brakeForceFactor: 0|1) {
-        this.state.brakeForce = maxBrakeForce * brakeForceFactor;
-        rearWheelIndices.forEach(this.brakeWheel);
+    setParkingBrake(brakeForce: number) {
+        this.state.parkingBrakeForce = maxParkingBrakeForce * brakeForce;
+        rearWheelIndices.forEach((wheel) => this.brakeWheel(wheel, this.state.parkingBrakeForce));
     }
 
-    private brakeWheel = (wheelIndex: number) => {
-        this.base.setBrake(this.state.brakeForce, wheelIndex);
+    private brakeWheel = (wheelIndex: number, brakeForce: number) => {
+        this.base.setBrake(brakeForce, wheelIndex);
     }
 
-    setSteeringDirection(steeringDirection: -1|0|1) {
-        this.state.steeringAngle = maxSteeringAngle * steeringDirection;
+    setSteering(steering: number) {
+        this.state.steeringAngle = maxSteeringAngle * Math.max(-1, Math.min(1, steering));
     }
 
     private steerWheels = () => {

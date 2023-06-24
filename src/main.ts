@@ -1,5 +1,6 @@
 import { ContactMaterial, Material, SAPBroadphase, World } from 'cannon-es';
 import WireframeRenderer from 'cannon-es-debugger';
+import Stats, { Panel } from 'stats.js';
 import {
     Clock, CubeTexture, DirectionalLight, HemisphereLight, MathUtils, Mesh, Scene, Vector2, WebGLRenderer,
 } from 'three';
@@ -247,27 +248,38 @@ if (cfg.fullscreen) {
     });
 
     inputHandler.addKeyDownChangeListener((keysDown) => {
-        let engineForceDirection: -1|0|1 = 0;
-        let steeringDirection: -1|0|1 = 0;
+        let engineForce = 0;
+        let steering = 0;
 
         if (keysDown.has('KeyW') || keysDown.has('ArrowUp')) {
-            engineForceDirection = 1;
+            engineForce = 1;
         } else if (keysDown.has('KeyS') || keysDown.has('ArrowDown')) {
-            engineForceDirection = -1;
+            engineForce = -1;
         }
         if (keysDown.has('KeyA') || keysDown.has('ArrowLeft')) {
-            steeringDirection = 1;
+            steering = 1;
         } else if (keysDown.has('KeyD') || keysDown.has('ArrowRight')) {
-            steeringDirection = -1;
+            steering = -1;
         }
-        if (!gameProgress.started && engineForceDirection) {
+        if (!gameProgress.started && engineForce) {
             gameProgress.start();
         }
 
-        vehicle.setEngineForceDirection(engineForceDirection);
-        vehicle.setSteeringDirection(steeringDirection);
-        vehicle.setBrakeForce(Number(keysDown.has('Space')) as 0|1);
+        vehicle.setEngineForce(engineForce);
+        vehicle.setSteering(steering);
+        vehicle.setParkingBrake(Number(keysDown.has('Space')));
     });
+
+    if (DeviceOrientationEvent) {
+        try {
+            await window.screen.orientation.lock('landscape');
+        } catch (e) {
+            console.error(e);
+        }
+        window.addEventListener('deviceorientation', (e) => {
+            vehicle.setSteering(e.beta / 50);
+        }, true);
+    }
 
     gameProgress.loadMap();
 
@@ -308,11 +320,29 @@ if (cfg.fullscreen) {
         }
     }
 
+    // add stats
+    const stats = new Stats();
+    const steerInpPanel = stats.addPanel(new Stats.Panel('in:steer', '#ff8', '#221'));
+    stats.showPanel(1); // 0: fps, 1: ms, 2: mb, 3: steer
+    stats.dom.id = 'stats';
+    if (!cfg.showStats) {
+        stats.dom.style.display = 'none';
+    }
+    document.body.appendChild(stats.dom);
+
     // start animation loop
     renderer.setAnimationLoop(animationLoop);
 
     function animationLoop() {
+        stats.begin();
         const delta = clock.getDelta();
+
+        if (cfg.showStats) {
+            steerInpPanel.update(
+                ((vehicle.state.steeringAngle / cfg.vehicle.maxSteeringAngle) + 1) * 50,
+                100,
+            );
+        }
 
         cameraHandler.update(delta);
         gameProgress.updateHUD();
@@ -331,6 +361,7 @@ if (cfg.fullscreen) {
         if (cfg.renderWireFrame) {
             wireframeRenderer.update();
         }
+        stats.end();
     }
 
     function onWindowResize() {

@@ -2,6 +2,7 @@ import EventListener from './common/EventListener';
 
 const prefKeys = [
     'fullscreen',
+    'showStats',
     'antialias',
     'renderShadows',
     'renderWireFrame',
@@ -11,6 +12,7 @@ const prefKeys = [
 const config = {
     fullscreen: false,
     antialias: false,
+    showStats: false,
     renderShadows: false,
     renderWireFrame: false,
     resolutionScale: 1,
@@ -45,7 +47,7 @@ const config = {
         mass: 30,
         steeringSpeed: 0.02,
         maxSteeringAngle: 0.7,
-        maxBrakeForce: 22,
+        maxParkingBrakeForce: 22,
         maxEngineForce: 220,
         torqueSplitRatio: [50, 50],
         cameraMountPosition: {

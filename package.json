@@ -1,40 +1,30 @@
 {
-  "name": "offroad-js",
-  "description": "3d platformer game with a car",
-  "keywords": [
-    "3d",
-    "game",
-    "driving",
-    "platformer",
-    "html5",
-    "javascript",
-    "cannon",
-    "cannon.es",
-    "cannon.js",
-    "three",
-    "three.js"
-  ],
+  "name": "racer",
+  "description": "",
+  "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/tomo0613/offroadJS_v2.git"
+    "url": "https://github.com/skillor/racer.git"
   },
   "version": "1.0.0",
   "main": "build/main.js",
   "scripts": {
     "start": "npx vite",
+    "debug": "start chrome --disable-gpu-vsync --disable-frame-rate-limit --enable-precise-memory-info && npx vite --port 3000 --host 0.0.0.0",
     "build": "npx tsc && npx vite build --config vite.buildConfig.ts",
     "preview": "npx vite preview --port 3000",
     "lint": "npx eslint src/**",
     "lint:fix": "npm run lint --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Tomo",
+  "author": "skillor",
   "license": "GNU GPLv3",
   "dependencies": {
     "cannon-es": "^0.20.0",
     "cannon-es-debugger": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "stats.js": "^0.17.0",
     "three": "^0.151.3",
     "three-to-cannon": "^4.3.0"
   },
@@ -44,6 +34,7 @@
     "@types/three": "^0.150.1",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
+    "@vitejs/plugin-basic-ssl": "^1.0.1",
     "@vitejs/plugin-react": "^3.1.0",
     "eslint": "^7.21.0",
     "eslint-config-airbnb-base": "^14.2.0",

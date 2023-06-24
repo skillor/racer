@@ -46,6 +46,7 @@ const uiTexts = {
     createButtonLabel: 'create',
 
     fullscreenSwitchLabel: 'Fullscreen:',
+    showStatsSwitchLabel: 'Show stats:',
     renderWireFrameSwitchLabel: 'Render wireFrame:',
     resolutionScaleSliderLabel: 'Resolution scale:',
     antialiasCheckboxLabel: 'Antialias:',

@@ -1,3 +1,4 @@
+import basicSsl from '@vitejs/plugin-basic-ssl';
 import vite_react from '@vitejs/plugin-react';
 import { defineConfig, Plugin } from 'vite';
 
@@ -7,6 +8,7 @@ export default defineConfig({
     plugins: [
         vite_react(),
         devServer_crossOriginIsolation(),
+        basicSsl(),
     ],
     server: {
         open: true,
